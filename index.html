@@ -1,46 +1,81 @@
 <!DOCTYPE html>
 <html lang="th"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="color-scheme" content="light dark">
+<meta name="theme-color" content="#e9edf1" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#14181d" media="(prefers-color-scheme: dark)">
+<meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="description" content="ผังอพยพหนีไฟ 3 มิติ โรงพยาบาลกองบิน บน.5 ใช้ได้ทั้งโทรศัพท์ แท็บเล็ต และคอมพิวเตอร์">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%9A%A8%3C/text%3E%3C/svg%3E">
 <title>ผังอพยพ รพ.กองบิน บน.5</title>
 <style>
-:root{--bg:#e9edf1;--pn:#fff;--tx:#1b1f24;--mu:#5b6670;--ln:#cfd6dc;--ac:#1565c0;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+:root{--bg:#e9edf1;--pn:#fff;--tx:#1b1f24;--mu:#5b6670;--ln:#cfd6dc;--ac:#1565c0;
+ --sat:env(safe-area-inset-top,0px);--sar:env(safe-area-inset-right,0px);--sab:env(safe-area-inset-bottom,0px);--sal:env(safe-area-inset-left,0px);
+ --fs:clamp(14px,.35vw + 12.6px,18px)}
 @media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#14181d;--pn:#222830;--tx:#eceff2;--mu:#9aa6b2;--ln:#3a434c;--ac:#64b5f6}}
 :root[data-theme="dark"]{--bg:#14181d;--pn:#222830;--tx:#eceff2;--mu:#9aa6b2;--ln:#3a434c;--ac:#64b5f6}
-html{height:100%;scroll-padding-top:env(safe-area-inset-top,0px)}
-body{margin:0;height:100%;display:flex;flex-direction:column;background:var(--bg);color:var(--tx);font:14px/1.45 "Noto Sans Thai",system-ui,sans-serif}
-#c{flex:1;position:relative;min-height:0;overflow:hidden}
-canvas{display:block;touch-action:none}
-.ov{position:absolute;top:8px;display:flex;flex-direction:column;gap:6px}
-.row{display:flex;gap:5px;flex-wrap:wrap}
-.b{border:1px solid var(--ln);background:var(--pn);color:var(--tx);border-radius:8px;padding:7px 11px;font:inherit;font-weight:600;cursor:pointer}
+*,*::before,*::after{box-sizing:border-box}
+html{height:100%;-webkit-text-size-adjust:100%;text-size-adjust:100%}
+body{margin:0;height:100vh;height:100dvh;display:flex;flex-direction:column;overflow:hidden;overscroll-behavior:none;background:var(--bg);color:var(--tx);
+ font:var(--fs)/1.5 "Noto Sans Thai","Sarabun",system-ui,-apple-system,"Segoe UI",sans-serif;-webkit-tap-highlight-color:transparent}
+#c{flex:1 1 auto;position:relative;min-height:0;min-width:0;overflow:hidden}
+canvas{display:block;touch-action:none;outline:0;cursor:grab;-webkit-user-select:none;user-select:none}
+canvas:active{cursor:grabbing}
+.ov{position:absolute;top:calc(8px + var(--sat));display:flex;flex-direction:column;gap:6px;z-index:2}
+#lt{left:calc(8px + var(--sal));max-width:calc(100% - 172px - var(--sal))}
+.row{display:flex;gap:6px;flex-wrap:wrap}
+.b{min-width:44px;min-height:44px;border:1px solid var(--ln);background:var(--pn);color:var(--tx);border-radius:10px;padding:6px 12px;font:inherit;font-weight:600;line-height:1.2;cursor:pointer;touch-action:manipulation;-webkit-user-select:none;user-select:none}
 .b.on{background:var(--ac);color:#fff;border-color:var(--ac)}
-#call{right:8px;align-items:flex-end;max-width:130px;text-align:right}
-#call a{background:#d32f2f;color:#fff;text-decoration:none;font-weight:700;padding:9px 12px;border-radius:10px;box-shadow:0 2px 6px #0005}
-#call small{font-size:10.5px;color:var(--tx);background:var(--pn);padding:2px 6px;border-radius:6px;line-height:1.3}
-#pn{background:var(--pn);border-top:1px solid var(--ln);padding:10px 12px 12px}
-#rt{font-size:11px;color:var(--mu)}
-#hd{font-weight:700;font-size:16px}
-#pn p{margin:3px 0}
+.b:active{transform:scale(.97)}
+.b:focus-visible,#tel:focus-visible,#ph:focus-visible{outline:3px solid var(--ac);outline-offset:2px}
+@media (hover:hover){.b:hover:not(.on){border-color:var(--ac)}}
+#call{right:calc(8px + var(--sar));align-items:flex-end;max-width:150px;text-align:right}
+#tel{display:flex;align-items:center;min-height:44px;background:#d32f2f;color:#fff;text-decoration:none;font-weight:700;padding:6px 14px;border-radius:12px;box-shadow:0 2px 6px #0005;white-space:nowrap}
+#call small{font-size:.75em;color:var(--tx);background:var(--pn);padding:2px 6px;border-radius:6px;line-height:1.3}
+.nogl{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;padding:24px;text-align:center}
+#pn{flex:0 1 auto;max-height:46vh;max-height:46dvh;display:flex;flex-direction:column;overflow:hidden;background:var(--pn);border-top:1px solid var(--ln)}
+#info{flex:1 1 auto;min-height:0;overflow:auto;overscroll-behavior:contain;display:flow-root;padding:10px calc(14px + var(--sar)) 6px calc(14px + var(--sal))}
+#rt{font-size:.8em;color:var(--mu)}
+#hd{font-weight:700;font-size:1.15em;line-height:1.35}
+#pn p{margin:4px 0}
 #rs{color:var(--ac);font-weight:600}
-.bar{display:flex;align-items:center;gap:8px;margin-top:8px}
-.bar span{flex:1;text-align:center;color:var(--mu);font-size:12px}
-#tm{position:fixed;inset:0;background:#0008;display:none;align-items:center;justify-content:center;z-index:9;padding:16px}
-#tm div{background:var(--pn);border-radius:12px;padding:16px;max-width:420px;width:100%;max-height:80%;overflow:auto}
-#tm h3{margin:10px 0 4px;font-size:14px;color:var(--ac)}
+#ph{float:right;width:clamp(110px,24vw,230px);aspect-ratio:16/9;margin:2px 0 8px 12px;border-radius:10px;object-fit:cover;background:var(--bg);border:1px solid var(--ln);cursor:zoom-in;display:none}
+.bar{flex:0 0 auto;display:flex;align-items:center;gap:8px;margin:0;padding:8px calc(14px + var(--sar)) calc(10px + var(--sab)) calc(14px + var(--sal));background:var(--pn);border-top:1px solid var(--ln)}
+.bar span{flex:1;text-align:center;color:var(--mu);font-size:.85em}
+#tm{position:fixed;inset:0;background:#000a;display:none;align-items:center;justify-content:center;z-index:9;padding:max(16px,var(--sat)) max(16px,var(--sar)) max(16px,var(--sab)) max(16px,var(--sal))}
+#tm .box{position:relative;background:var(--pn);border-radius:14px;padding:16px;width:min(100%,520px);max-height:100%;overflow:auto}
+#tm .box.pic{width:min(100%,980px)}
+#tx{position:absolute;top:8px;right:8px;z-index:1}
+#tmb{padding-right:48px}
+#tm h3{margin:10px 0 4px;font-size:1em;color:var(--ac)}
 #tm p{margin:2px 0}
-.bar{clear:both}
-#ph{float:right;width:104px;height:78px;margin:0 0 6px 10px;border-radius:8px;object-fit:cover;border:1px solid var(--ln);cursor:zoom-in;display:none}
-#tmb img{width:100%;border-radius:8px;margin-top:8px;display:block}
+#tmb img{display:block;width:100%;max-height:72vh;max-height:72dvh;object-fit:contain;border-radius:10px;margin-top:8px;background:var(--bg)}
+/* แท็บเล็ต/คอมพิวเตอร์/โทรศัพท์แนวนอน: แผงข้อมูลอยู่ด้านขวา */
+@media (min-width:700px) and (orientation:landscape),(min-width:1000px){
+ body{flex-direction:row}
+ #pn{flex:0 0 clamp(320px,31vw,460px);max-height:none;border-top:0;border-left:1px solid var(--ln)}
+ #info{padding-top:calc(12px + var(--sat))}
+ #ph{float:none;width:100%;margin:8px 0}
+ #call{right:8px}
+}
+@media (orientation:landscape) and (max-height:480px){
+ #ph{float:right;width:44%;margin:4px 0 6px 10px}
+ #info{padding-top:8px}
+}
+@media (max-width:380px){#lt{max-width:calc(100% - 140px)}#call{max-width:120px}.b{padding:6px 9px}}
+@media (prefers-reduced-motion:reduce){.b:active{transform:none}}
 </style></head><body>
 <div id="c">
- <div class="ov" style="left:8px;max-width:calc(100% - 150px)"><div class="row" id="tabs"></div>
-  <div class="row"><button class="b" id="f1">ชั้น 1</button><button class="b" id="f2">ชั้น 2</button><button class="b" id="tb">👥 ทีม</button><button class="b" id="wl">🧱 ผนังสูง</button></div></div>
- <div class="ov" id="call" style="align-items:flex-end"><a id="tel">📞 โทร 192</a><small id="un"></small></div>
+ <div class="ov" id="lt"><div class="row" id="tabs" role="group" aria-label="เลือกเส้นทางอพยพ"></div>
+  <div class="row"><button class="b" id="f1">ชั้น 1</button><button class="b" id="f2">ชั้น 2</button><button class="b" id="tb">👥 ทีม</button><button class="b" id="wl">🧱 ผนังสูง</button><button class="b" id="rv" aria-label="รีเซ็ตมุมมอง" title="รีเซ็ตมุมมอง (0)">🎯</button><button class="b" id="fs" aria-label="เต็มหน้าจอ" title="เต็มหน้าจอ" hidden>⛶</button></div></div>
+ <div class="ov" id="call"><a id="tel">📞 โทร 192</a><small id="un"></small></div>
 </div>
-<div id="pn"><div id="rt"></div><img id="ph" alt="รูปสถานที่จริง"><div id="hd"></div><p id="ds"></p><p id="rs"></p>
- <div class="bar"><button class="b" id="pv">◀</button><button class="b" id="pl">▶ เล่น</button><span id="pg"></span><button class="b" id="nx">ถัดไป ▶</button></div></div>
-<div id="tm"><div id="tmb"></div></div>
+<div id="pn" aria-live="polite"><div id="info"><div id="rt"></div><img id="ph" alt="รูปสถานที่จริง"><div id="hd"></div><p id="ds"></p><p id="rs"></p></div>
+ <div class="bar"><button class="b" id="pv" aria-label="ขั้นก่อนหน้า">◀</button><button class="b" id="pl">▶ เล่น</button><span id="pg"></span><button class="b" id="nx" aria-label="ขั้นถัดไป">ถัดไป ▶</button></div></div>
+<div id="tm" role="dialog" aria-modal="true" aria-label="รายละเอียด"><div class="box"><button class="b" id="tx" aria-label="ปิด">✕</button><div id="tmb"></div></div></div>
+<noscript><p style="padding:16px">ต้องเปิด JavaScript จึงจะแสดงผังอพยพได้ โทร 192</p></noscript>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script>if(!window.THREE){var _c=document.getElementById('c');_c.insertAdjacentHTML('beforeend','<div class="nogl"><b>โหลดผัง 3 มิติไม่ได้</b><span>ตรวจสอบการเชื่อมต่ออินเทอร์เน็ต แล้วรีเฟรชหน้านี้</span></div>')}</script>
 <script src="config.js"></script>
 <script>
 // ===== ข้อมูลผัง (หน่วยเมตร: x, z; ชั้น 2 อยู่ที่ y=3.5) =====
@@ -90,7 +125,7 @@ const ICON={power:'⚡',fire:'🧯',comm:'📻',count:'📋'};
 // ===== ฉาก 3D =====
 const $=id=>document.getElementById(id),T=THREE,V=T.Vector3,cl=(v,a,b)=>Math.max(a,Math.min(b,v));
 const dark=matchMedia('(prefers-color-scheme: dark)').matches;
-const box=$('c'),ren=new T.WebGLRenderer({antialias:true,alpha:true});ren.setPixelRatio(Math.min(2,devicePixelRatio));box.prepend(ren.domElement);ren.shadowMap.enabled=true;ren.shadowMap.type=T.PCFSoftShadowMap;
+const box=$('c');let ren;try{ren=new T.WebGLRenderer({antialias:true,alpha:true})}catch(err){box.insertAdjacentHTML('beforeend','<div class="nogl"><b>อุปกรณ์นี้แสดงผัง 3 มิติไม่ได้</b><span>ลองเปิดด้วย Chrome หรือ Safari เวอร์ชันล่าสุด หรือเปิดบนอุปกรณ์เครื่องอื่น</span></div>');throw err}ren.setPixelRatio(Math.min(2,devicePixelRatio));box.prepend(ren.domElement);ren.shadowMap.enabled=true;ren.shadowMap.type=T.PCFSoftShadowMap;
 const sc=new T.Scene(),cam=new T.PerspectiveCamera(45,1,.5,300),cv=ren.domElement;
 sc.add(new T.AmbientLight(0xffffff,.85));const dl=new T.DirectionalLight(0xffffff,.55);dl.position.set(28,32,30);dl.target.position.set(16,0,10);sc.add(dl,dl.target);
 dl.castShadow=true;dl.shadow.mapSize.set(1024,1024);Object.assign(dl.shadow.camera,{left:-32,right:32,top:32,bottom:-32,near:1,far:100});dl.shadow.bias=-.0006;
@@ -152,13 +187,22 @@ step(15.75,2.5,1.75,1.3,5);
 
 // ===== กล้อง =====
 let th=0,ph=.9,rad=40,goalR=34;const tgt=new V(16,0,10),goal=tgt.clone();
-const pts=new Map();let pd=0;const pinch=()=>{const a=[...pts.values()];return Math.hypot(a[0][0]-a[1][0],a[0][1]-a[1][1])||1};
-cv.addEventListener('pointerdown',e=>{cv.setPointerCapture(e.pointerId);pts.set(e.pointerId,[e.clientX,e.clientY]);if(pts.size==2)pd=pinch()});
-cv.addEventListener('pointermove',e=>{if(!pts.has(e.pointerId))return;const o=pts.get(e.pointerId);pts.set(e.pointerId,[e.clientX,e.clientY]);
- if(pts.size==1){th-=(e.clientX-o[0])*.006;ph=cl(ph-(e.clientY-o[1])*.006,.15,1.45)}else if(pts.size==2){const d=pinch();goalR=cl(goalR*pd/d,8,90);pd=d}});
-['pointerup','pointercancel'].forEach(t=>cv.addEventListener(t,e=>pts.delete(e.pointerId)));
-cv.addEventListener('wheel',e=>{e.preventDefault();goalR=cl(goalR*(1+e.deltaY*.001),8,90)},{passive:false});
-function fit(){const w=box.clientWidth,h=box.clientHeight;ren.setSize(w,h);cam.aspect=w/h;cam.updateProjectionMatrix()}
+const pts=new Map();let pd=0,pm=[0,0];
+const pinch=()=>{const a=[...pts.values()];return Math.hypot(a[0][0]-a[1][0],a[0][1]-a[1][1])||1};
+const mid=()=>{const a=[...pts.values()];return[(a[0][0]+a[1][0])/2,(a[0][1]+a[1][1])/2]};
+function pan(dx,dy){const k=rad*.0018,sn=Math.sin(th),cs=Math.cos(th),mx=-cs*dx*k-sn*dy*k,mz=sn*dx*k-cs*dy*k;
+ [tgt,goal].forEach(v=>{v.x=cl(v.x+mx,-12,52);v.z=cl(v.z+mz,-16,36)})}
+cv.addEventListener('pointerdown',e=>{cv.setPointerCapture(e.pointerId);pts.set(e.pointerId,[e.clientX,e.clientY]);if(pts.size==2){pd=pinch();pm=mid()}});
+cv.addEventListener('pointermove',e=>{if(!pts.has(e.pointerId))return;const o=pts.get(e.pointerId);pts.set(e.pointerId,[e.clientX,e.clientY]);const dx=e.clientX-o[0],dy=e.clientY-o[1];
+ if(pts.size==1){if(e.pointerType==='mouse'&&(e.buttons&2||e.shiftKey||e.ctrlKey))pan(dx,dy);else{th-=dx*.006;ph=cl(ph-dy*.006,.15,1.45)}}
+ else if(pts.size==2){const d=pinch(),m=mid();goalR=cl(goalR*pd/d,8,90);pd=d;pan(m[0]-pm[0],m[1]-pm[1]);pm=m}});
+['pointerup','pointercancel'].forEach(t=>cv.addEventListener(t,e=>{pts.delete(e.pointerId);if(pts.size==1)pd=0}));
+cv.addEventListener('wheel',e=>{e.preventDefault();goalR=cl(goalR*(1+cl(e.deltaY,-120,120)*.0012),8,90)},{passive:false});
+cv.addEventListener('contextmenu',e=>e.preventDefault());
+cv.setAttribute('role','img');cv.setAttribute('aria-label','ผังอพยพ 3 มิติ ลากเพื่อหมุน บีบนิ้วหรือเลื่อนล้อเมาส์เพื่อซูม');
+const baseR=()=>cam.aspect<.75?48:cam.aspect<1?40:34;let lastAsp=0;
+function fit(){const w=Math.max(1,box.clientWidth),h=Math.max(1,box.clientHeight);ren.setPixelRatio(Math.min(2,window.devicePixelRatio||1));ren.setSize(w,h);cam.aspect=w/h;cam.updateProjectionMatrix();
+ if(Math.abs(cam.aspect-lastAsp)>.25){lastAsp=cam.aspect;goalR=Math.max(goalR,Math.min(baseR(),90))}}
 new ResizeObserver(fit).observe(box);fit();
 
 // ===== เส้นทางและทัวร์ =====
@@ -185,7 +229,7 @@ function sel(i){cur=cl(i,0,S.length-1);const s=S[cur],p=pos(s[7]);wtar=s[7];show
  $('hd').textContent=s[0]+' · '+s[4];$('ds').textContent=fill(s[5]);$('rs').textContent='ผู้รับผิดชอบ: '+who(s[6]);$('pg').textContent=(cur+1)+' / '+S.length;
  pin.position.set(s[2],p.y,s[3]);pin.userData.f=s[1]===2?2:s[1]===1?1:0;if(pinIcon){pin.remove(pinIcon);pinIcon=null}
  if(s[8]){pinIcon=spr(x=>{x.font='46px sans-serif';x.textAlign='center';x.textBaseline='middle';x.fillText(ICON[s[8]],32,34)},2.6);pinIcon.position.y=2.9;pin.add(pinIcon)}
- mk.forEach((m,j)=>m.scale.setScalar(j===cur?2.1:1.5));goal.set(s[2],p.y,s[3]);goalR=Math.min(goalR,34);vis()}
+ mk.forEach((m,j)=>m.scale.setScalar(j===cur?2.1:1.5));goal.set(s[2],p.y,s[3]);goalR=Math.min(goalR,baseR());vis()}
 function vis(){g1.visible=flo===1;g2.visible=flo===2;const ok=o=>!o.userData.f||o.userData.f===flo;rg.children.forEach(o=>o.visible=ok(o));pin.visible=ok(pin);
  $('f1').classList.toggle('on',flo===1);$('f2').classList.toggle('on',flo===2)}
 function setFloor(f){flo=f;vis()}
@@ -200,12 +244,28 @@ $('pl').onclick=()=>{playing=!playing;wait=0;if(playing&&cur===S.length-1)sel(0)
 const PH=$('ph'),EXTS=['jpg','jpeg','png','webp'];let phTok=0;
 function showPhoto(code){const my=++phTok;PH.style.display='none';const c=CFG.photos&&CFG.photos[code],list=(c?[c]:[]).concat(EXTS.map(e=>'photos/'+code+'.'+e));
  (function next(i){if(i>=list.length||my!==phTok)return;const im=new Image();im.onload=()=>{if(my===phTok){PH.src=im.src;PH.style.display='block'}};im.onerror=()=>next(i+1);im.src=encodeURI(list[i])})(0)}
-PH.onclick=()=>{const im=new Image();im.src=PH.src;const b=document.createElement('b');b.textContent=$('hd').textContent;$('tmb').replaceChildren(b,im);$('tm').style.display='flex'};
+PH.onclick=()=>{const im=new Image();im.src=PH.src;const b=document.createElement('b');b.textContent=$('hd').textContent;$('tmb').replaceChildren(b,im);$('tm').firstElementChild.classList.add('pic');$('tm').style.display='flex';$('tx').focus()};
 // โทร 192 และหน้าต่างทีม
 $('tel').href='tel:'+CFG.phone;$('tel').textContent='📞 โทร '+CFG.phone;$('un').textContent=CFG.unit;
 $('tb').onclick=()=>{const t=n=>Object.keys(CFG.roles).map(r=>'<p>'+CFG.roles[r]+': <b>'+CFG[n][r]+'</b></p>').join('');
- $('tmb').innerHTML='<b>👥 ทีมผู้รับผิดชอบ</b><h3>ชั้น 1</h3>'+t('f1')+'<h3>ชั้น 2</h3>'+t('f2')+'<h3>จุดรวมพล</h3><p>ผู้นับยอด: <b>'+CFG.count.join(', ')+'</b></p><p style="margin-top:10px"><a href="tel:'+CFG.phone+'">📞 '+CFG.unit+' โทร '+CFG.phone+'</a></p>';$('tm').style.display='flex'};
-$('tm').onclick=e=>{if(e.target===$('tm'))$('tm').style.display='none'};
+ $('tmb').innerHTML='<b>👥 ทีมผู้รับผิดชอบ</b><h3>ชั้น 1</h3>'+t('f1')+'<h3>ชั้น 2</h3>'+t('f2')+'<h3>จุดรวมพล</h3><p>ผู้นับยอด: <b>'+CFG.count.join(', ')+'</b></p><p style="margin-top:10px"><a href="tel:'+CFG.phone+'">📞 '+CFG.unit+' โทร '+CFG.phone+'</a></p>';$('tm').firstElementChild.classList.remove('pic');$('tm').style.display='flex';$('tx').focus()};
+const closeM=()=>{$('tm').style.display='none'};
+$('tm').onclick=e=>{if(e.target===$('tm'))closeM()};$('tx').onclick=closeM;
+function resetView(){th=0;ph=.9;goalR=baseR();sel(cur)}
+$('rv').onclick=resetView;
+{const de=document.documentElement,rq=de.requestFullscreen||de.webkitRequestFullscreen,fsEl=()=>document.fullscreenElement||document.webkitFullscreenElement;
+ if(rq){$('fs').hidden=false;$('fs').onclick=()=>{if(fsEl())(document.exitFullscreen||document.webkitExitFullscreen).call(document);else rq.call(de)}}}
+addEventListener('keydown',e=>{if(e.altKey||e.ctrlKey||e.metaKey)return;
+ if(e.key==='Escape'){closeM();return}
+ if($('tm').style.display==='flex')return;
+ const t=e.target.tagName,onBtn=t==='BUTTON'||t==='A';
+ if(e.key==='ArrowRight'||e.key==='ArrowDown'){if(!onBtn||e.key==='ArrowRight'){$('nx').click();e.preventDefault()}}
+ else if(e.key==='ArrowLeft'||e.key==='ArrowUp'){if(!onBtn||e.key==='ArrowLeft'){$('pv').click();e.preventDefault()}}
+ else if(e.key===' '&&!onBtn){$('pl').click();e.preventDefault()}
+ else if(e.key==='+'||e.key==='='){goalR=cl(goalR*.85,8,90)}
+ else if(e.key==='-'||e.key==='_'){goalR=cl(goalR/.85,8,90)}
+ else if(e.key==='0'){resetView()}
+ else if(e.key==='1')setFloor(1);else if(e.key==='2')setFloor(2)});
 
 // ===== วนลูป =====
 const SPEED=7;let last=performance.now();
